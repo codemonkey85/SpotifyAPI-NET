@@ -59,6 +59,16 @@ namespace SpotifyAPI.SpotifyLocalAPI
             await QueryAsync("remote/pause.json?pause=false", true, true, -1);
         }
 
+        //internal async void SendPreviousRequest()
+        //{
+        //    await QueryAsync("remote/previous.json?pause=false", true, true, -1);
+        //}
+
+        //internal async void SendSkipRequest()
+        //{
+        //    await QueryAsync("remote/skip.json?pause=false", true, true, -1);
+        //}
+
         internal async void SendPlayRequest(String url, String context = "")
         {
             // TODO: instead of having an empty context, one way to fix the bug with the playback time beyond the length of a song would be to provide a 1-song context, and it would be fixed.

@@ -95,6 +95,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         public void Skip()
         {
             PressKey(VK_MEDIA_NEXT_TRACK);
+            //rh.SendSkipRequest();
         }
         /// <summary>
         /// Emulates the "Previous" Key (Using keypress simulation)
@@ -102,6 +103,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         public void Previous()
         {
             PressKey(VK_MEDIA_PREV_TRACK);
+            //rh.SendPreviousRequest();
         }
         /// <summary>
         /// Returns the current track postion

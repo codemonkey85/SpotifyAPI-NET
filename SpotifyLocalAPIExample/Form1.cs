@@ -60,10 +60,11 @@ namespace SpotifyAPI_Example
         }
         private async void Form1_Load(object sender, EventArgs e)
         {
+            this.TopMost = true;
             spotify.Update();
             progressBar1.Maximum = (int)mh.GetCurrentTrack().GetLength() * 100;
             pictureBox1.Image = await spotify.GetMusicHandler().GetCurrentTrack().GetAlbumArtAsync(AlbumArtSize.SIZE_160);
-            pictureBox2.Image = await spotify.GetMusicHandler().GetCurrentTrack().GetAlbumArtAsync(AlbumArtSize.SIZE_640);
+            //pictureBox2.Image = await spotify.GetMusicHandler().GetCurrentTrack().GetAlbumArtAsync(AlbumArtSize.SIZE_640);
 
             linkLabel1.Text = mh.GetCurrentTrack().GetTrackName();
             linkLabel1.LinkClicked += (senderTwo, args) => Process.Start(mh.GetCurrentTrack().GetTrackURI());
@@ -72,9 +73,9 @@ namespace SpotifyAPI_Example
             linkLabel3.Text = mh.GetCurrentTrack().GetAlbumName();
             linkLabel3.LinkClicked += (senderTwo, args) => Process.Start(mh.GetCurrentTrack().GetAlbumURI());
 
-            label9.Text = mh.IsPlaying().ToString();
-            label11.Text = ((int)(mh.GetVolume() * 100)).ToString();
-            label7.Text = mh.IsAdRunning().ToString();
+            //label9.Text = mh.IsPlaying().ToString();
+            //label11.Text = ((int)(mh.GetVolume() * 100)).ToString();
+            //label7.Text = mh.IsAdRunning().ToString();
 
             eh.OnTrackChange += new SpotifyEventHandler.TrackChangeEventHandler(trackchange);
             eh.OnTrackTimeChange += new SpotifyEventHandler.TrackTimeChangeEventHandler(timechange);
@@ -85,11 +86,11 @@ namespace SpotifyAPI_Example
         }
         private void volumechange(VolumeChangeEventArgs e)
         {
-            label11.Text = ((int)(mh.GetVolume() * 100)).ToString();
+            //label11.Text = ((int)(mh.GetVolume() * 100)).ToString();
         }
         private void playstatechange(PlayStateEventArgs e)
         {
-            label9.Text = e.playing.ToString();
+            //label9.Text = e.playing.ToString();
         }
         private async void trackchange(TrackChangeEventArgs e)
         {
@@ -98,8 +99,8 @@ namespace SpotifyAPI_Example
             linkLabel2.Text = e.new_track.GetArtistName();
             linkLabel3.Text = e.new_track.GetAlbumName();
             pictureBox1.Image = await e.new_track.GetAlbumArtAsync(AlbumArtSize.SIZE_160);
-            pictureBox2.Image = await e.new_track.GetAlbumArtAsync(AlbumArtSize.SIZE_640);
-            label7.Text = mh.IsAdRunning().ToString();
+            //pictureBox2.Image = await e.new_track.GetAlbumArtAsync(AlbumArtSize.SIZE_640);
+            //label7.Text = mh.IsAdRunning().ToString();
         }
         private void timechange(TrackTimeChangeEventArgs e)
         {
@@ -139,15 +140,15 @@ namespace SpotifyAPI_Example
         {
             //Not working yet
             //if (SpotifyAPI.IsValidSpotifyURI(textBox1.Text))
-            mh.PlayURL(textBox1.Text, tbContext.Text);
+            //mh.PlayURL(textBox1.Text, tbContext.Text);
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
-                mh.Mute();
-            else
-                mh.UnMute();
+            //if (checkBox1.Checked)
+            //    mh.Mute();
+            //else
+            //    mh.UnMute();
         }
     }
 }
