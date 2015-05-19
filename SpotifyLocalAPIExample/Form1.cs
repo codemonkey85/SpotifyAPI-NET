@@ -53,6 +53,7 @@ namespace SpotifyAPI_Example
 
         private async void Form1_Load(object sender, EventArgs e)
         {
+            this.ShowInTaskbar = false;
             this.MinimumSize = this.Size;
             this.MaximumSize = this.Size;
             this.TopMost = true;
