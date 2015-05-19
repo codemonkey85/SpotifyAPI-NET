@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SpotifyAPI.SpotifyLocalAPI;
 
 namespace SpotifyAPI.SpotifyLocalAPI
 {
@@ -16,12 +12,19 @@ namespace SpotifyAPI.SpotifyLocalAPI
         private StatusResponse response;
 
         public delegate void TrackChangeEventHandler(TrackChangeEventArgs e);
+
         public delegate void PlayStateEventHandler(PlayStateEventArgs e);
+
         public delegate void VolumeChangeEventHandler(VolumeChangeEventArgs e);
+
         public delegate void TrackTimeChangeEventHandler(TrackTimeChangeEventArgs e);
+
         public event TrackChangeEventHandler OnTrackChange;
+
         public event PlayStateEventHandler OnPlayStateChange;
+
         public event VolumeChangeEventHandler OnVolumeChange;
+
         public event TrackTimeChangeEventHandler OnTrackTimeChange;
 
         public SpotifyEventHandler(SpotifyLocalAPIClass api, SpotifyMusicHandler mh)
@@ -35,6 +38,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
             this.api = api;
             this.mh = mh;
         }
+
         /// <summary>
         /// If Events should be triggered
         /// </summary>
@@ -43,6 +47,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             timer.Enabled = listen;
         }
+
         /// <summary>
         /// Sets a synchronizing object, so you don't need to Invoke
         /// </summary>
@@ -51,6 +56,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             timer.SynchronizingObject = obj;
         }
+
         internal void tick(object sender, EventArgs e)
         {
             api.Update();
@@ -61,7 +67,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
                 return;
             }
             StatusResponse new_response = mh.GetStatusResponse();
-            if(new_response == null)
+            if (new_response == null)
             {
                 timer.Start();
                 return;
@@ -97,7 +103,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
                     new_volume = new_response.volume
                 });
             }
-            if(new_response.playing_position != response.playing_position && OnTrackTimeChange != null)
+            if (new_response.playing_position != response.playing_position && OnTrackTimeChange != null)
             {
                 OnTrackTimeChange(new TrackTimeChangeEventArgs()
                 {

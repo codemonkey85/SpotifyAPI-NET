@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace SpotifyAPI.SpotifyLocalAPI
 {
@@ -12,31 +8,35 @@ namespace SpotifyAPI.SpotifyLocalAPI
     {
         [DllImport("user32.dll")]
         private static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, int dwExtraInfo);
+
         [DllImport("nircmd.dll")]
         private static extern bool DoNirCmd(String NirCmdStr);
 
-        RemoteHandler rh;
-        StatusResponse sr;
+        private RemoteHandler rh;
+        private StatusResponse sr;
 
         //Constants for the Keyboard Event (NextTrack + PreviousTrack)
-        const byte VK_MEDIA_NEXT_TRACK = 0xb0;
-        const byte VK_MEDIA_PREV_TRACK = 0xb1;
-        const int KEYEVENTF_EXTENDEDKEY = 0x1;
-        const int KEYEVENTF_KEYUP = 0x2;
+        private const byte VK_MEDIA_NEXT_TRACK = 0xb0;
+
+        private const byte VK_MEDIA_PREV_TRACK = 0xb1;
+        private const int KEYEVENTF_EXTENDEDKEY = 0x1;
+        private const int KEYEVENTF_KEYUP = 0x2;
 
         public SpotifyMusicHandler()
         {
             rh = RemoteHandler.GetInstance();
         }
+
         /// <summary>
         /// Simulates a KeyPress
         /// </summary>
         /// <param name="keyCode">The keycode for the represented Key</param>
-        void PressKey(byte keyCode)
+        private void PressKey(byte keyCode)
         {
             keybd_event(keyCode, 0x45, KEYEVENTF_EXTENDEDKEY, 0);
             keybd_event(keyCode, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
         }
+
         /// <summary>
         /// Checks if a song is playing
         /// </summary>
@@ -45,6 +45,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             return sr.playing;
         }
+
         /// <summary>
         /// Returns the current Volume
         /// </summary>
@@ -53,6 +54,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             return sr.volume;
         }
+
         /// <summary>
         /// Plays a Spotify URI within an optional context.
         /// </summary>
@@ -65,6 +67,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             rh.SendPlayRequest(uri, context);
         }
+
         /// <summary>
         /// Adds a Spotify URI to the Queue
         /// </summary>
@@ -73,6 +76,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             rh.SendQueueRequest(uri);
         }
+
         /// <summary>
         /// Checks if the current "Track" is an Advert
         /// </summary>
@@ -81,6 +85,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             return !sr.next_enabled && !sr.prev_enabled;
         }
+
         /// <summary>
         /// Returns the current Track object
         /// </summary>
@@ -89,6 +94,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             return sr.track;
         }
+
         /// <summary>
         /// Skips the current song (Using keypress simulation)
         /// </summary>
@@ -97,6 +103,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
             PressKey(VK_MEDIA_NEXT_TRACK);
             //rh.SendSkipRequest();
         }
+
         /// <summary>
         /// Emulates the "Previous" Key (Using keypress simulation)
         /// </summary>
@@ -105,6 +112,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
             PressKey(VK_MEDIA_PREV_TRACK);
             //rh.SendPreviousRequest();
         }
+
         /// <summary>
         /// Returns the current track postion
         /// </summary>
@@ -113,14 +121,16 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             return sr.playing_position;
         }
+
         /// <summary>
         /// Mutes Spotify (Requires nircmd.dll)
         /// </summary>
         public void Mute()
         {
-            if(File.Exists("nircmd.dll"))
+            if (File.Exists("nircmd.dll"))
                 DoNirCmd("muteappvolume spotify.exe 1");
         }
+
         /// <summary>
         /// Unmutes Spotify (Requires nircmd.dll)
         /// </summary>
@@ -129,6 +139,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
             if (File.Exists("nircmd.dll"))
                 DoNirCmd("muteappvolume spotify.exe 0");
         }
+
         /// <summary>
         /// Pause function
         /// </summary>
@@ -136,6 +147,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             rh.SendPauseRequest();
         }
+
         /// <summary>
         /// Play function
         /// </summary>
@@ -143,6 +155,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             rh.SendPlayRequest();
         }
+
         /// <summary>
         /// Returns all Informations gathered by the JSON Request
         /// </summary>
@@ -151,6 +164,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             return sr;
         }
+
         //Used internaly
         internal void Update(StatusResponse sr)
         {

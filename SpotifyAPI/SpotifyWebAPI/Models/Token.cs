@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace SpotifyAPI.SpotifyWebAPI.Models
 {
@@ -23,14 +19,17 @@ namespace SpotifyAPI.SpotifyWebAPI.Models
 
         [JsonProperty("error")]
         public String Error { get; set; }
+
         [JsonProperty("error_description")]
         public String ErrorDescription { get; set; }
 
         public DateTime CreateDate { get; set; }
+
         public Token()
         {
             CreateDate = DateTime.Now;
         }
+
         public Boolean IsExpired()
         {
             return CreateDate.Add(TimeSpan.FromSeconds(ExpiresIn)) >= DateTime.Now;

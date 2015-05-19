@@ -1,18 +1,14 @@
-﻿using System;
-using System.Windows;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using SpotifyAPI.SpotifyWebAPI;
+﻿using SpotifyAPI.SpotifyWebAPI;
 using SpotifyAPI.SpotifyWebAPI.Models;
+using System;
 
 namespace SpotifyWebAPIExample
 {
-    class Program
+    internal class Program
     {
-        static ImplicitGrantAuth auth;
-        static void Main(string[] args)
+        private static ImplicitGrantAuth auth;
+
+        private static void Main(string[] args)
         {
             Console.WriteLine("### SpotifyWebAPI .NET Test App");
             Console.WriteLine("Starting auth process...");
@@ -35,12 +31,12 @@ namespace SpotifyWebAPIExample
             auth.DoAuth();
         }
 
-        static void auth_OnResponseReceivedEvent(Token token, string state, string error)
+        private static void auth_OnResponseReceivedEvent(Token token, string state, string error)
         {
             //stop the http server
             auth.StopHttpServer();
 
-            if(error != null)
+            if (error != null)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Error: " + error);
@@ -50,7 +46,7 @@ namespace SpotifyWebAPIExample
                 {
                     AccessToken = token.AccessToken,
                     TokenType = token.TokenType,
-                    UseAuth = true 
+                    UseAuth = true
                 });
         }
 
@@ -67,17 +63,21 @@ namespace SpotifyWebAPIExample
                 default:
                     DisplayMenu(spotify);
                     break;
+
                 case "1":
                     DisplayProfile(spotify);
                     break;
+
                 case "2":
                     DisplayPlaylists(spotify);
                     break;
+
                 case "3":
                     DisplayPlaylistTracks(spotify);
                     break;
             }
         }
+
         public static void DisplayProfile(SpotifyWebAPIClass spotify)
         {
             Console.WriteLine("");
@@ -96,6 +96,7 @@ namespace SpotifyWebAPIExample
             Console.WriteLine("");
             DisplayMenu(spotify);
         }
+
         private static void DisplayPlaylists(SpotifyWebAPIClass spotify)
         {
             Console.WriteLine("");
@@ -107,7 +108,7 @@ namespace SpotifyWebAPIExample
             Console.WriteLine("");
             foreach (SimplePlaylist playlist in playlists.Items)
                 Console.WriteLine(playlist.Name + " (" + playlist.Id + ")");
-            while(playlists.Next != null)
+            while (playlists.Next != null)
             {
                 playlists = spotify.DownloadData<Paging<SimplePlaylist>>(playlists.Next);
                 foreach (SimplePlaylist playlist in playlists.Items)
@@ -118,6 +119,7 @@ namespace SpotifyWebAPIExample
             Console.WriteLine("");
             DisplayMenu(spotify);
         }
+
         private static void DisplayPlaylistTracks(SpotifyWebAPIClass spotify)
         {
             Console.WriteLine("");
@@ -126,13 +128,13 @@ namespace SpotifyWebAPIExample
             String id = Console.ReadLine();
 
             Paging<PlaylistTrack> col = spotify.GetPlaylistTracks(spotify.GetPrivateProfile().Id, id);
-            if(col.HasError())
+            if (col.HasError())
             {
                 Console.WriteLine("ERROR: " + col.ErrorResponse.Message);
                 DisplayMenu(spotify);
                 return;
             }
-            foreach(PlaylistTrack track in col.Items)
+            foreach (PlaylistTrack track in col.Items)
                 Console.WriteLine(track.Track.Name + " (" + track.Track.Id + ")");
             while (col.Next != null)
             {

@@ -1,19 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
-using System.Net;
 using System.IO;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace SpotifyAPI.SpotifyLocalAPI
 {
     public class Track
     {
         public TrackResource track_resource { get; set; }
+
         public TrackResource artist_resource { get; set; }
+
         public TrackResource album_resource { get; set; }
+
         public int length { get; set; }
+
         public string track_type { get; set; }
 
         /// <summary>
@@ -24,6 +26,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             return track_resource.name;
         }
+
         /// <summary>
         /// Returns the track lenght
         /// </summary>
@@ -32,6 +35,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             return length;
         }
+
         /// <summary>
         /// Returns the URI for the album
         /// </summary>
@@ -40,6 +44,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             return album_resource.uri;
         }
+
         /// <summary>
         /// Returns the URI for the track
         /// </summary>
@@ -48,6 +53,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             return track_resource.uri;
         }
+
         /// <summary>
         /// Returns the URI for the artist
         /// </summary>
@@ -56,6 +62,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             return artist_resource.uri;
         }
+
         /// <summary>
         /// Returns the albume name
         /// </summary>
@@ -64,6 +71,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             return album_resource.name;
         }
+
         /// <summary>
         /// Returns the artist name
         /// </summary>
@@ -72,6 +80,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             return artist_resource.name;
         }
+
         /// <summary>
         /// Returns a URL to the album cover in the provided size
         /// </summary>
@@ -87,15 +96,17 @@ namespace SpotifyAPI.SpotifyLocalAPI
                 case AlbumArtSize.SIZE_160:
                     albumsize = 160;
                     break;
+
                 case AlbumArtSize.SIZE_320:
                     albumsize = 320;
                     break;
+
                 case AlbumArtSize.SIZE_640:
                     albumsize = 640;
                     break;
             }
             String raw = "";
-            using(WebClient wc = new WebClient())
+            using (WebClient wc = new WebClient())
             {
                 wc.Proxy = null;
                 raw = wc.DownloadString("http://open.spotify.com/album/" + album_resource.uri.Split(new string[] { ":" }, StringSplitOptions.None)[2]);
@@ -112,6 +123,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
             }
             return "";
         }
+
         /// <summary>
         /// Returns a Bitmap of the album cover in the provided size asynchronous
         /// </summary>
@@ -130,7 +142,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
                 {
                     data = await wc.DownloadDataTaskAsync(url);
                 }
-                catch(WebException)
+                catch (WebException)
                 {
                     throw;
                 }
@@ -140,6 +152,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
                 }
             }
         }
+
         /// <summary>
         /// Returns a Bitmap of the album cover in the provided size
         /// </summary>
@@ -147,12 +160,12 @@ namespace SpotifyAPI.SpotifyLocalAPI
         /// <returns>A Bitmap, which is the albumart</returns>
         public Bitmap GetAlbumArt(AlbumArtSize size)
         {
-            using(WebClient wc = new WebClient())
+            using (WebClient wc = new WebClient())
             {
                 wc.Proxy = null;
                 String url = GetAlbumArtURL(size);
                 if (url == "")
-                    return new Bitmap(640,640);
+                    return new Bitmap(640, 640);
                 byte[] data = null;
                 try
                 {
@@ -169,19 +182,25 @@ namespace SpotifyAPI.SpotifyLocalAPI
             }
         }
     }
+
     public class TrackResource
     {
         public String name { get; set; }
+
         public String uri { get; set; }
+
         public TrackResourceLocation location { get; set; }
     }
+
     public class TrackResourceLocation
     {
         public String og { get; set; }
     }
+
     public class OpenGraphState
     {
         public Boolean private_session { get; set; }
+
         public Boolean posting_disabled { get; set; }
     }
 }

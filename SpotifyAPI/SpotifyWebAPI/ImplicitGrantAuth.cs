@@ -1,27 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using SpotifyAPI.SpotifyWebAPI.Models;
+using System;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
-using System.IO;
-using SpotifyAPI.SpotifyWebAPI.Models;
-using Newtonsoft.Json;
-using System.Diagnostics;
 
 namespace SpotifyAPI.SpotifyWebAPI
 {
     public class ImplicitGrantAuth
     {
         public String ClientId { get; set; }
+
         public String RedirectUri { get; set; }
+
         public String State { get; set; }
+
         public Scope Scope { get; set; }
+
         public Boolean ShowDialog { get; set; }
 
-        Thread httpThread;
-        SimpleHttpServer httpServer;
+        private Thread httpThread;
+        private SimpleHttpServer httpServer;
 
-        public delegate void OnResponseReceived(Token token,String state,String error);
+        public delegate void OnResponseReceived(Token token, String state, String error);
+
         public event OnResponseReceived OnResponseReceivedEvent;
 
         public void DoAuth()
@@ -29,6 +30,7 @@ namespace SpotifyAPI.SpotifyWebAPI
             String uri = GetUri();
             Process.Start(uri);
         }
+
         private String GetUri()
         {
             StringBuilder builder = new StringBuilder("https://accounts.spotify.com/authorize/?");
@@ -40,13 +42,15 @@ namespace SpotifyAPI.SpotifyWebAPI
             builder.Append("&show_dialog=" + ShowDialog.ToString());
             return builder.ToString();
         }
+
         public void StartHttpServer()
         {
             httpServer = new SimpleHttpServer(80, SetResponse, AuthType.IMPLICIT);
             httpThread = new Thread(httpServer.listen); ;
             httpThread.Start();
         }
-        public void SetResponse(String accessToken, String tokenType, int expiresIn,String state, String error)
+
+        public void SetResponse(String accessToken, String tokenType, int expiresIn, String state, String error)
         {
             if (OnResponseReceivedEvent != null)
                 OnResponseReceivedEvent(new Token()
@@ -54,8 +58,9 @@ namespace SpotifyAPI.SpotifyWebAPI
                     AccessToken = accessToken,
                     TokenType = tokenType,
                     ExpiresIn = expiresIn
-                },state,error);
+                }, state, error);
         }
+
         public void StopHttpServer()
         {
             httpServer.Dispose();

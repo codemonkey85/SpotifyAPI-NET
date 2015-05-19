@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Diagnostics;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using SpotifyAPI.SpotifyLocalAPI;
+﻿using SpotifyAPI.SpotifyLocalAPI;
+using System;
 using System.Threading;
+using System.Windows.Forms;
 using SpotifyEventHandler = SpotifyAPI.SpotifyLocalAPI.SpotifyEventHandler;
-
 
 namespace SpotifyAPI_Example
 {
     public partial class Form1 : Form
     {
-        SpotifyLocalAPIClass spotify;
-        SpotifyMusicHandler mh;
-        SpotifyEventHandler eh;
+        private SpotifyLocalAPIClass spotify;
+        private SpotifyMusicHandler mh;
+        private SpotifyEventHandler eh;
+
         public Form1()
         {
             InitializeComponent();
@@ -35,15 +27,15 @@ namespace SpotifyAPI_Example
                 spotify.RunSpotifyWebHelper();
                 Thread.Sleep(4000);
             }
-                
-            if(!spotify.Connect())
+
+            if (!spotify.Connect())
             {
                 Boolean retry = true;
-                while(retry)
+                while (retry)
                 {
                     if (MessageBox.Show("SpotifyLocalAPIClass could'nt load!", "Error", MessageBoxButtons.RetryCancel) == System.Windows.Forms.DialogResult.Retry)
                     {
-                        if(spotify.Connect())
+                        if (spotify.Connect())
                             retry = false;
                         else
                             retry = true;
@@ -58,20 +50,26 @@ namespace SpotifyAPI_Example
             mh = spotify.GetMusicHandler();
             eh = spotify.GetEventHandler();
         }
+
         private async void Form1_Load(object sender, EventArgs e)
         {
+            this.MinimumSize = this.Size;
+            this.MaximumSize = this.Size;
             this.TopMost = true;
             spotify.Update();
             progressBar1.Maximum = (int)mh.GetCurrentTrack().GetLength() * 100;
             pictureBox1.Image = await spotify.GetMusicHandler().GetCurrentTrack().GetAlbumArtAsync(AlbumArtSize.SIZE_160);
             //pictureBox2.Image = await spotify.GetMusicHandler().GetCurrentTrack().GetAlbumArtAsync(AlbumArtSize.SIZE_640);
 
-            linkLabel1.Text = mh.GetCurrentTrack().GetTrackName();
-            linkLabel1.LinkClicked += (senderTwo, args) => Process.Start(mh.GetCurrentTrack().GetTrackURI());
-            linkLabel2.Text = mh.GetCurrentTrack().GetArtistName();
-            linkLabel2.LinkClicked += (senderTwo, args) => Process.Start(mh.GetCurrentTrack().GetArtistURI());
-            linkLabel3.Text = mh.GetCurrentTrack().GetAlbumName();
-            linkLabel3.LinkClicked += (senderTwo, args) => Process.Start(mh.GetCurrentTrack().GetAlbumURI());
+            //linkLabel1.Text = mh.GetCurrentTrack().GetTrackName();
+            //linkLabel1.LinkClicked += (senderTwo, args) => Process.Start(mh.GetCurrentTrack().GetTrackURI());
+            //linkLabel2.Text = mh.GetCurrentTrack().GetArtistName();
+            //linkLabel2.LinkClicked += (senderTwo, args) => Process.Start(mh.GetCurrentTrack().GetArtistURI());
+            //linkLabel3.Text = mh.GetCurrentTrack().GetAlbumName();
+            //linkLabel3.LinkClicked += (senderTwo, args) => Process.Start(mh.GetCurrentTrack().GetAlbumURI());
+
+            lblTrackInfo.Text = string.Format("{1}{0}{2}{0}{3}", Environment.NewLine,
+                mh.GetCurrentTrack().GetTrackName(), mh.GetCurrentTrack().GetArtistName(), mh.GetCurrentTrack().GetAlbumName());
 
             //label9.Text = mh.IsPlaying().ToString();
             //label11.Text = ((int)(mh.GetVolume() * 100)).ToString();
@@ -84,29 +82,36 @@ namespace SpotifyAPI_Example
             eh.SetSynchronizingObject(this);
             eh.ListenForEvents(true);
         }
+
         private void volumechange(VolumeChangeEventArgs e)
         {
             //label11.Text = ((int)(mh.GetVolume() * 100)).ToString();
         }
+
         private void playstatechange(PlayStateEventArgs e)
         {
             //label9.Text = e.playing.ToString();
         }
+
         private async void trackchange(TrackChangeEventArgs e)
         {
-            progressBar1.Maximum = (int)mh.GetCurrentTrack().GetLength()*100;
-            linkLabel1.Text = e.new_track.GetTrackName();
-            linkLabel2.Text = e.new_track.GetArtistName();
-            linkLabel3.Text = e.new_track.GetAlbumName();
+            progressBar1.Maximum = (int)mh.GetCurrentTrack().GetLength() * 100;
+            lblTrackInfo.Text = string.Format("{1}{0}{2}{0}{3}", Environment.NewLine,
+                mh.GetCurrentTrack().GetTrackName(), mh.GetCurrentTrack().GetArtistName(), mh.GetCurrentTrack().GetAlbumName());
+            //linkLabel1.Text = e.new_track.GetTrackName();
+            //linkLabel2.Text = e.new_track.GetArtistName();
+            //linkLabel3.Text = e.new_track.GetAlbumName();
             pictureBox1.Image = await e.new_track.GetAlbumArtAsync(AlbumArtSize.SIZE_160);
             //pictureBox2.Image = await e.new_track.GetAlbumArtAsync(AlbumArtSize.SIZE_640);
             //label7.Text = mh.IsAdRunning().ToString();
         }
+
         private void timechange(TrackTimeChangeEventArgs e)
         {
             label4.Text = formatTime(e.track_time) + "/" + formatTime(mh.GetCurrentTrack().GetLength());
-            progressBar1.Value = (int)e.track_time*100;
+            progressBar1.Value = (int)e.track_time * 100;
         }
+
         private String formatTime(double sec)
         {
             TimeSpan span = TimeSpan.FromSeconds(sec);

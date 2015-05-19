@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 using System.Diagnostics;
 
 namespace SpotifyAPI.SpotifyLocalAPI
 {
     public class SpotifyLocalAPIClass
     {
-        SpotifyMusicHandler mh;
-        RemoteHandler rh;
-        SpotifyEventHandler eh;
-        static bool betaMode;
+        private SpotifyMusicHandler mh;
+        private RemoteHandler rh;
+        private SpotifyEventHandler eh;
+        private static bool betaMode;
 
         public SpotifyLocalAPIClass(bool betaMode = false)
         {
@@ -107,10 +104,10 @@ namespace SpotifyAPI.SpotifyLocalAPI
         {
             String[] types = new String[] { "track", "album", "local", "artist" };
             String[] split = uri.Split(':');
-            
+
             if (split.Length < 3)
                 return false;
-            
+
             return split[0] == "spotify" && Array.IndexOf(types, split[1]) > -1 && split[2].Length == 22;
         }
 

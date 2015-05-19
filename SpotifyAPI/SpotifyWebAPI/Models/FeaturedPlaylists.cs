@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace SpotifyAPI.SpotifyWebAPI.Models
 {
@@ -11,6 +7,7 @@ namespace SpotifyAPI.SpotifyWebAPI.Models
     {
         [JsonProperty("message")]
         public String Message { get; set; }
+
         [JsonProperty("playlists")]
         public Paging<SimplePlaylist> Playlists { get; set; }
     }

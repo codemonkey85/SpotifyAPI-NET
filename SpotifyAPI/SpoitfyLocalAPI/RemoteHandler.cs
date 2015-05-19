@@ -1,19 +1,18 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
-using Newtonsoft.Json;
 
 namespace SpotifyAPI.SpotifyLocalAPI
 {
-    class RemoteHandler
+    internal class RemoteHandler
     {
         private static RemoteHandler instance = new RemoteHandler();
 
         public String oauthKey { get; private set; }
+
         public String cfidKey { get; private set; }
 
         public String host = "SpotifyAPI.spotilocal.com";
@@ -37,7 +36,6 @@ namespace SpotifyAPI.SpotifyLocalAPI
 
         internal RemoteHandler()
         {
-
         }
 
         internal Boolean Init()
@@ -185,9 +183,7 @@ namespace SpotifyAPI.SpotifyLocalAPI
                 parameters += "&returnon=login%2Clogout%2Cplay%2Cpause%2Cerror%2Cap";
             }
 
-        
-
-            string a = "http://" + host + ":4380/" + request + parameters ;
+            string a = "http://" + host + ":4380/" + request + parameters;
             string response = "";
             try
             {
