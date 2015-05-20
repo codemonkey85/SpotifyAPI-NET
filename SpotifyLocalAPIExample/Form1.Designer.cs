@@ -34,7 +34,9 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.lblTrackInfo = new System.Windows.Forms.Label();
+            this.labelTrackName = new System.Windows.Forms.Label();
+            this.labelAlbumName = new System.Windows.Forms.Label();
+            this.labelArtistName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -101,22 +103,43 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // lblTrackInfo
+            // labelTrackName
             // 
-            this.lblTrackInfo.AutoSize = true;
-            this.lblTrackInfo.Location = new System.Drawing.Point(9, 83);
-            this.lblTrackInfo.Margin = new System.Windows.Forms.Padding(0);
-            this.lblTrackInfo.Name = "lblTrackInfo";
-            this.lblTrackInfo.Size = new System.Drawing.Size(53, 13);
-            this.lblTrackInfo.TabIndex = 10;
-            this.lblTrackInfo.Text = "TrackInfo";
+            this.labelTrackName.AutoSize = true;
+            this.labelTrackName.Location = new System.Drawing.Point(83, 50);
+            this.labelTrackName.Margin = new System.Windows.Forms.Padding(0);
+            this.labelTrackName.Name = "labelTrackName";
+            this.labelTrackName.Size = new System.Drawing.Size(35, 13);
+            this.labelTrackName.TabIndex = 10;
+            this.labelTrackName.Text = "Track";
+            // 
+            // labelAlbumName
+            // 
+            this.labelAlbumName.Location = new System.Drawing.Point(9, 88);
+            this.labelAlbumName.Margin = new System.Windows.Forms.Padding(0);
+            this.labelAlbumName.Name = "labelAlbumName";
+            this.labelAlbumName.Size = new System.Drawing.Size(222, 27);
+            this.labelAlbumName.TabIndex = 11;
+            this.labelAlbumName.Text = "Album";
+            // 
+            // labelArtistName
+            // 
+            this.labelArtistName.AutoSize = true;
+            this.labelArtistName.Location = new System.Drawing.Point(83, 67);
+            this.labelArtistName.Margin = new System.Windows.Forms.Padding(0);
+            this.labelArtistName.Name = "labelArtistName";
+            this.labelArtistName.Size = new System.Drawing.Size(30, 13);
+            this.labelArtistName.TabIndex = 12;
+            this.labelArtistName.Text = "Artist";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(240, 124);
-            this.Controls.Add(this.lblTrackInfo);
+            this.Controls.Add(this.labelArtistName);
+            this.Controls.Add(this.labelAlbumName);
+            this.Controls.Add(this.labelTrackName);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button2);
@@ -145,7 +168,9 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label lblTrackInfo;
+        private System.Windows.Forms.Label labelTrackName;
+        private System.Windows.Forms.Label labelAlbumName;
+        private System.Windows.Forms.Label labelArtistName;
 
     }
 }

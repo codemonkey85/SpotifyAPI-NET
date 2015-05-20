@@ -69,8 +69,9 @@ namespace SpotifyAPI_Example
             //linkLabel3.Text = mh.GetCurrentTrack().GetAlbumName();
             //linkLabel3.LinkClicked += (senderTwo, args) => Process.Start(mh.GetCurrentTrack().GetAlbumURI());
 
-            lblTrackInfo.Text = string.Format("{1}{0}{2}{0}{3}", Environment.NewLine,
-                mh.GetCurrentTrack().GetTrackName(), mh.GetCurrentTrack().GetArtistName(), mh.GetCurrentTrack().GetAlbumName());
+            labelTrackName.Text = mh.GetCurrentTrack().GetTrackName();
+            labelArtistName.Text = mh.GetCurrentTrack().GetArtistName();
+            labelAlbumName.Text = mh.GetCurrentTrack().GetAlbumName();
 
             //label9.Text = mh.IsPlaying().ToString();
             //label11.Text = ((int)(mh.GetVolume() * 100)).ToString();
@@ -97,8 +98,9 @@ namespace SpotifyAPI_Example
         private async void trackchange(TrackChangeEventArgs e)
         {
             progressBar1.Maximum = (int)mh.GetCurrentTrack().GetLength() * 100;
-            lblTrackInfo.Text = string.Format("{1}{0}{2}{0}{3}", Environment.NewLine,
-                mh.GetCurrentTrack().GetTrackName(), mh.GetCurrentTrack().GetArtistName(), mh.GetCurrentTrack().GetAlbumName());
+            labelTrackName.Text = mh.GetCurrentTrack().GetTrackName();
+            labelArtistName.Text = mh.GetCurrentTrack().GetArtistName();
+            labelAlbumName.Text = mh.GetCurrentTrack().GetAlbumName();
             //linkLabel1.Text = e.new_track.GetTrackName();
             //linkLabel2.Text = e.new_track.GetArtistName();
             //linkLabel3.Text = e.new_track.GetAlbumName();
