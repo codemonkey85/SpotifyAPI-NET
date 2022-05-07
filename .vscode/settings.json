@@ -1,0 +1,9 @@
+{
+  "editor.detectIndentation": false,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "omnisharp.enableEditorConfigSupport": true,
+  "files.associations": {
+    "*.md": "mdx"
+  }
+}
