@@ -1,8 +1,8 @@
-using System.Net;
 using System.Collections.Generic;
+using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using SpotifyAPI.Web.Http;
-using System.Threading;
 
 namespace SpotifyAPI.Web
 {
@@ -98,7 +98,7 @@ namespace SpotifyAPI.Web
     {
       Ensure.ArgumentNotNull(request, nameof(request));
 
-      var statusCode = await API.Delete(SpotifyUrls.LibraryShows(), null, request.BuildBodyParams(), cancel).ConfigureAwait(false);
+      var statusCode = await API.Delete(SpotifyUrls.LibraryShows(), request.BuildQueryParams(), null, cancel).ConfigureAwait(false);
       return statusCode == HttpStatusCode.OK;
     }
 
@@ -106,7 +106,7 @@ namespace SpotifyAPI.Web
     {
       Ensure.ArgumentNotNull(request, nameof(request));
 
-      var statusCode = await API.Delete(SpotifyUrls.LibraryTracks(), null, request.BuildBodyParams(), cancel).ConfigureAwait(false);
+      var statusCode = await API.Delete(SpotifyUrls.LibraryTracks(), request.BuildQueryParams(), null, cancel).ConfigureAwait(false);
       return statusCode == HttpStatusCode.OK;
     }
 
@@ -114,7 +114,7 @@ namespace SpotifyAPI.Web
     {
       Ensure.ArgumentNotNull(request, nameof(request));
 
-      var statusCode = await API.Delete(SpotifyUrls.LibraryEpisodes(), null, request.BuildBodyParams(), cancel).ConfigureAwait(false);
+      var statusCode = await API.Delete(SpotifyUrls.LibraryEpisodes(), request.BuildQueryParams(), null, cancel).ConfigureAwait(false);
       return statusCode == HttpStatusCode.OK;
     }
 
